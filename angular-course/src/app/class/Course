@@ -1,0 +1,3 @@
+class Course implements Course {
+  constructor(id: string, title: string) { }
+}
