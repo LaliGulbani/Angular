@@ -1,1 +1,33 @@
-<app-courses-list-item *ngFor="let course of courses" [course]="course" (deleteCourse)="deleteCourse($event)"></app-courses-list-item>
+<div class="toolbox">
+  <div class="toolbox__search">
+    <div class="input-field col s6">
+      <input id="search" type="text" class="validate toolbox__input" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+      <label for="search">Search</label>
+    </div>
+  </div>
+  <div class="toolbox__buttons">
+    <button class="btn waves-effect waves-light cyan darken-3" (click)="search()">
+      <span class="toolbox__button-text">search</span>
+      <i class="material-icons right toolbox__button-right-icon">search</i>
+      <i class="material-icons center toolbox__button-center-icon">search</i>
+    </button>
+    <button class="btn waves-effect waves-light cyan darken-3">
+      <span class="toolbox__button-text">add course</span>
+      <i class="material-icons right toolbox__button-right-icon">add</i>
+      <i class="material-icons center toolbox__button-center-icon">add</i>
+    </button>
+  </div>
+</div>
+<div *ngIf="filteredCourses">
+  <app-courses-list-item *ngFor="let course of filteredCourses | orderBy" [course]="course" (deleteCourse)="deleteCourse($event)"></app-courses-list-item>
+  <div class="row">
+    <button class="btn waves-effect waves-light courses__load cyan darken-3 white-text" (click)="loadMore()">
+      <i class="material-icons center">expand_more</i>
+    </button>
+  </div>
+</div>
+<div *ngIf="!filteredCourses">
+  <div class="flow-text center-align cyan darken-2 white-text card-panel">
+    NO DATA. FEEL FREE TO ADD NEW COURSE
+  </div>
+</div>
