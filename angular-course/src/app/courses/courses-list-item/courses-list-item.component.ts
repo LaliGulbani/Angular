@@ -9,13 +9,22 @@ import {Course} from '../course';
 export class CoursesListItemComponent implements OnInit {
   @Input() course: Course;
   @Output() deleteCourse: EventEmitter<number> = new EventEmitter<number>();
+  modalOpened: boolean;
+
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  delete() {
+  delete(): void {
     this.deleteCourse.emit(this.course.id);
   }
 
+  openModal(): void {
+    this.modalOpened = true;
+    console.log(this.modalOpened);
+  }
+
+  closeModal(): void {
+    this.modalOpened = false;
+  }
 }

@@ -7,18 +7,9 @@ import {Component, OnInit} from '@angular/core';
 })
 export class CoursesComponent implements OnInit {
 
-  public searchQuery = '';
   constructor() { }
 
   ngOnInit() {
   }
 
-  search(): void {
-    console.log(this.searchQuery);
-  }
-
-  loadMore(): void {
-    console.log('Loaded more courses');
-  }
-  
 }

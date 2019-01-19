@@ -13,16 +13,36 @@
   display: flex;
 }
 
-.course__duration {
-  margin-right: 20px;
-}
-
 .btn:first-child {
   margin-right: 10px;
 }
 
 .course__button-center-icon {
   display: none;
+}
+
+.top-rated:after {
+  content: '\E838';
+  font-family: 'Material Icons';
+  color: #ffab00;
+  display: inline;
+  vertical-align: bottom;
+  margin-left: 10px;
+}
+
+.delete-modal {
+  position: fixed;
+  z-index: 10;
+  width: 1000px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  margin-top: -125px;
+  margin-left: -250px;
+}
+
+.delete-modal a {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 479px){
