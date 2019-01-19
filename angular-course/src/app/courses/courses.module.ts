@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoursesListComponent } from './courses-list/courses-list.component';
-import { CoursesListItemComponent } from './courses-list-item/courses-list-item.component';
+import { CoursesListComponent } from './components/courses-list/courses-list.component';
+import { CoursesListItemComponent } from './components/courses-list-item/courses-list-item.component';
 import { CoursesComponent } from './courses.component';
 import { CourseOutlineDirective } from './directives/course-outline.directive';
 import { FormsModule } from '@angular/forms';

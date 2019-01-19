@@ -1,12 +1,17 @@
 <nav class="cyan darken-2">
   <div class="nav-wrapper container">
     <a href="#" class="brand-logo left"><i class="material-icons left">book</i>Learn</a>
-    <ul class="right">
-      <li>USERNAME</li>
+    <ul class="right" *ngIf="username">
+      <li>Hello, {{username}}!</li>
       <li>
         <a class="btn waves-effect waves-light cyan darken-4">
           <i class="material-icons center">exit_to_app</i>
         </a>
+      </li>
+    </ul>
+    <ul class="right" *ngIf="!username">
+      <li>
+        <a class="btn waves-effect waves-light cyan darken-4" href="login">Login</a>
       </li>
     </ul>
   </div>
