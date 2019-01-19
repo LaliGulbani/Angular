@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Course } from '../course';
+import { Course } from '../entities/course';
 
 @Injectable({
   providedIn: 'root'
@@ -57,26 +57,26 @@ export class CoursesService {
     ];
   }
 
-  getCourseIndexById(id: number): number {
+  public getCourseIndexById(id: number): number {
     return this.courses.findIndex(course => {
       return course.id === id;
     });
   }
 
-  getCourses(): Course[] {
+  public getCourses(): Course[] {
     return this.courses;
   }
 
-  getCourseById(id: number): Course {
+  public getCourseById(id: number): Course {
     const index = this.getCourseIndexById(id);
     return this.courses[index];
   }
 
-  addCourse(course: Course): void {
+  public addCourse(course: Course): void {
     this.courses.push(course);
   }
 
-  updateCourse(id: number, course: Course): void {
+  public updateCourse(id: number, course: Course): void {
     const index = this.getCourseIndexById(id);
     this.courses[index] = course;
   }
