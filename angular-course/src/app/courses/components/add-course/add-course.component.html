@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="form">
+    <div class="row">
+      <div class="col m8 s12 offset-m2">
+        <h3 class="center text-darken-2 grey-text">Add a new course</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <input id="title" type="text" autocomplete="off" [(ngModel)]="title">
+        <label for="title">Title</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <textarea id="description" class="materialize-textarea" autocomplete="off" [(ngModel)]="description"></textarea>
+        <label for="description">Description</label>
+      </div>
+    </div>
+    <!--<app-date></app-date>-->
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <input id="date" type="text" autocomplete="off" [(ngModel)]="date">
+        <label for="date">Date</label>
+      </div>
+    </div>
+    <app-duration (changeDuration)="onDurationChange($event)"></app-duration>
+    <!--<app-authors></app-authors>-->
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <input id="authors" type="text" autocomplete="off" [(ngModel)]="authors">
+        <label for="authors">Authors</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col m8 s12 offset-m2">
+        <a class="waves-effect waves-light btn left" (click)="cancel()">Cancel</a>
+        <a class="waves-effect waves-light btn right" (click)="save()">Save</a>
+      </div>
+    </div>
+  </div>
+</div>
