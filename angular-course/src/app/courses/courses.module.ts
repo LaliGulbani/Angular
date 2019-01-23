@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CoursesListComponent } from './components/courses-list/courses-list.component';
 import { CoursesListItemComponent } from './components/courses-list-item/courses-list-item.component';
 import { CoursesComponent } from './courses.component';
+import { AddCourseComponent } from './components/add-course/add-course.component';
 import { CourseOutlineDirective } from './directives/course-outline.directive';
 import { FormsModule } from '@angular/forms';
 import { DurationPipe } from './pipes/duration.pipe';
@@ -21,6 +22,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     CoursesListComponent,
     CoursesListItemComponent,
     CoursesComponent,
+    AddCourseComponent,
     CourseOutlineDirective,
     DurationPipe,
     OrderByPipe
