@@ -1,6 +1,6 @@
 <nav class="cyan darken-2">
   <div class="nav-wrapper container">
-    <a href="#" class="brand-logo left"><i class="material-icons left">book</i>Learn</a>
+    <a routerLink="/" class="brand-logo left"><i class="material-icons left">book</i>Learn</a>
     <ul class="right" *ngIf="username">
       <li>Hello, {{username}}!</li>
       <li>
@@ -11,7 +11,7 @@
     </ul>
     <ul class="right" *ngIf="!username">
       <li>
-        <a class="btn waves-effect waves-light cyan darken-4" href="login">Login</a>
+        <a class="btn waves-effect waves-light cyan darken-4" routerLink="/login">Login</a>
       </li>
     </ul>
   </div>

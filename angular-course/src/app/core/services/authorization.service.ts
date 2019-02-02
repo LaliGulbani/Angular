@@ -1,64 +1,51 @@
-import { Injectable } from '@angular/core';
-import { User } from '../entities/user';
+import {EventEmitter, Injectable, Output} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {BASE_URL} from "../../app.config";
+import {Router} from "@angular/router";
+import {User} from "../entities/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
-  public user: User;
-  public isAuthenticated: boolean;
-  private users: User[];
+  @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
-    this.users = [
-      {
-        login: 'laligulbani',
-        password: '2019'
-      },
-      {
-        login: 'lalala',
-        password: '2018'
-      },
-      {
-        login: 'kuga',
-        password: 'mobileiron'
-      }
-    ];
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-      this.isAuthenticated = true;
-      this.user = JSON.parse(userInfo);
-    } else {
-      this.isAuthenticated = false;
-      this.user = null;
-    }
+  constructor(private http: HttpClient, private router: Router) {}
+
+  public isAuthenticated(): boolean {
+    return !!this.getToken();
   }
 
-  public login(user: User): void {
-    if (this.users.find(mockedUser => {
-      return (mockedUser.login === user.login && mockedUser.password === user.password)
-    })) {
-      this.user = user;
-      this.isAuthenticated = true;
-      localStorage.setItem('userInfo', JSON.stringify(this.user));
-      location.reload();
-    } else {
-      alert('Wrong login or password');
-    }
+  public login(login: string, password: string): void {
+    this.http.post(`${BASE_URL}/auth/login`, {login: login, password: password}, {}).subscribe((token: JSON) => {
+        this.setToken(token);
+        this.getLoggedInName.emit(this.getUserLogin());
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      });
   }
 
   public logout(): void {
-    this.user = null;
-    this.isAuthenticated = false;
-    localStorage.removeItem('userInfo');
-    location.reload();
+    localStorage.removeItem('token');
+    this.getLoggedInName.emit('');
+    this.router.navigate(['login']);
+  }
+  public getToken(): string {
+    return localStorage.getItem('token');
   }
 
-  public getUserLogin(): string {
-    if (this.user) {
-      return this.user.login;
-    } else {
-      return null;
-    }
+  public setToken(token: JSON): void {
+    localStorage.setItem('token', token['token']);
+    this.router.navigate(['']);
+  }
+
+  public getUserLogin(): void {
+    this.http.post(`${BASE_URL}/auth/userinfo`, {}).subscribe((user: User) => {
+      this.getLoggedInName.emit(`${user.name.first} ${user.name.last}`);
+      },
+      (error: HttpErrorResponse) => {
+      console.log(error.message);
+      });
   }
 }

@@ -1,0 +1,1 @@
+export {CourseOutlineDirective} from './course-outline.directive';

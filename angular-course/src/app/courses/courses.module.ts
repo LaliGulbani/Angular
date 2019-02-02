@@ -1,34 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoursesListComponent } from './components/courses-list/courses-list.component';
-import { CoursesListItemComponent } from './components/courses-list-item/courses-list-item.component';
-import { CoursesComponent } from './courses.component';
-import { AddCourseComponent } from './components/add-course/add-course.component';
-import { CourseOutlineDirective } from './directives/course-outline.directive';
 import { FormsModule } from '@angular/forms';
-import { DurationPipe } from './pipes/duration.pipe';
-import { OrderByPipe } from './pipes/order-by.pipe';
-import { FilterPipe } from './pipes/filter.pipe';
+import {CoursesRoutingModule} from "./courses-routing.module";
+import {CoursesService} from "./services/courses.service";
+import * as components from './components';
+import * as directives from './directives';
+import * as pipes from './pipes';
 
+
+const modules = [CommonModule];
+
+function toArray(obj){
+  return Object.keys(obj).map(k => obj(k));
+}
+
+const declarations = [
+  ...toArray(components),
+  ...toArray(directives),
+  ...toArray(pipes)
+]
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
+  imports: [...modules],
   exports: [
-    CoursesComponent
+    FormsModule,
+    CoursesRoutingModule
   ],
   declarations: [
-    CoursesListComponent,
-    CoursesListItemComponent,
-    CoursesComponent,
-    AddCourseComponent,
-    CourseOutlineDirective,
-    DurationPipe,
-    OrderByPipe
+    ...declarations
   ],
-  providers: [
-    FilterPipe
-  ]
+  providers: [CoursesService]
 })
 export class CoursesModule { }

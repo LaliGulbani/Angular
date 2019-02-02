@@ -1,61 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Course } from '../entities/course';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {BASE_URL} from "../../app.config";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CoursesService {
   private courses: Course[];
 
-  constructor() {
-    this.courses = [
-      {
-        id: 1,
-        title: 'Video Course 1',
-        date: new Date(2018, 7, 9),
-        duration: 243.654,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' +
-          'Illum impedit laudantium vitae? A, adipisci assumenda earum ipsa magnam quos temporibus.',
-        topRated: true
-      },
-      {
-        id: 2,
-        title: 'Video Course 2',
-        date: new Date(2019, 10, 20),
-        duration: 13,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' +
-          'Illum impedit laudantium vitae? A, adipisci assumenda earum ipsa magnam quos temporibus.',
-        topRated: false
-      },
-      {
-        id: 3,
-        title: 'Video Course 3',
-        date: new Date(2018, 11, 4),
-        duration: 127,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' +
-          'Illum impedit laudantium vitae? A, adipisci assumenda earum ipsa magnam quos temporibus.',
-        topRated: false
-      },
-      {
-        id: 4,
-        title: 'Video Course 4',
-        date: new Date(2018, 8, 8),
-        duration: 30,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' +
-          'Illum impedit laudantium vitae? A, adipisci assumenda earum ipsa magnam quos temporibus.',
-        topRated: false
-      },
-      {
-        id: 5,
-        title: 'Video Course 5',
-        date: new Date(2018, 5, 25),
-        duration: 120,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.' +
-          'Illum impedit laudantium vitae? A, adipisci assumenda earum ipsa magnam quos temporibus.',
-        topRated: true
-      }
-    ];
-  }
+  constructor(private http: HttpClient) { }
 
   public getCourseIndexById(id: number): number {
     return this.courses.findIndex(course => {
@@ -63,8 +16,8 @@ export class CoursesService {
     });
   }
 
-  public getCourses(): Course[] {
-    return this.courses;
+    public getCourses(params: HttpParams): Observable<Course[]> {
+      return this.http.get<Course[]>(`${BASE_URL}/courses`, {params: params});
   }
 
   public getCourseById(id: number): Course {
@@ -81,7 +34,7 @@ export class CoursesService {
     this.courses[index] = course;
   }
 
-  removeCourse(id: number): void {
+  public removeCourse(id: number): void {
     this.courses.splice(this.getCourseIndexById(id), 1);
   }
 }

@@ -1,26 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import {CoreModule} from './core/core.module';
-import {CoursesModule} from './courses/courses.module';
-import { AuthorizationService } from './core/services/authorization.service';
-import { LoginModule } from './login/login.module';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {TokenInterceptorService} from './core/services/token-interceptor.service';
+import {AppRoutingModule} from "./app-routing.module";
+
+const angularModules = [
+  BrowserModule,
+  CoreModule,
+  HttpClientModule,
+  AppRoutingModule
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserModule,
-    CoreModule,
-    CoursesModule,
-    LoginModule,
-    RouterModule.forRoot(ROUTES)
-  ],
-  providers: [AuthorizationService],
+  imports: [...angularModules  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

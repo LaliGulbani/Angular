@@ -1,21 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AuthorizationService } from '../../services/authorization.service';
+import {Subscription} from "rxjs/index";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   username: string;
-  constructor(private authorizationService: AuthorizationService) { }
+  usernameSubscription: Subscription;
+
+  constructor(private auth: AuthorizationService) { }
 
   ngOnInit() {
-    this.username = this.authorizationService.getUserLogin();
+    this.usernameSubscription = this.auth.getLoggedInName.subscribe((username: string) => {
+      this.username = username;
+      });
+  this.auth.getUserLogin();
   }
 
   logout(): void {
-    this.authorizationService.logout();
-    this.username = null;
+    this.auth.logout();
+  }
+
+  ngOnDestroy() {
+    this.usernameSubscription.unsubscribe();
   }
 }
