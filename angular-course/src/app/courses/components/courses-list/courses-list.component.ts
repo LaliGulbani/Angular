@@ -1,7 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Course} from '../../entities/course';
 import {CoursesService} from '../../services/courses.service';
-import {FilterPipe} from '../../pipes/filter.pipe';
+import {Subscription} from 'rxjs/index';
+import {HttpErrorResponse, HttpParams} from "@angular/common/http";
+import {COURSES_PER_LOAD} from "../../../app.config";
 
 @Component({
   selector: 'app-courses-list',
@@ -10,18 +13,23 @@ import {FilterPipe} from '../../pipes/filter.pipe';
 })
 export class CoursesListComponent implements OnInit {
   @Input() searchQuery: string;
-  courses: Course[] = [];
-  filteredCourses: Course[] = [];
+  courses: Course[];
+  coursesSubscription: Subscription;
+  coursesPerLoad = COURSES_PER_LOAD;
+  loadStart: number;
+  noMoreCourses: boolean;
 
-  constructor(private coursesService: CoursesService, private filterPipe: FilterPipe) { }
+  constructor(private coursesService: CoursesService) { }
 
   ngOnInit() {
-    this.courses = this.coursesService.getCourses();
-    this.filteredCourses = this.courses;
+    this.search();
   }
 
   search(): void {
-    this.filteredCourses = this.filterPipe.transform(this.courses, this.searchQuery);
+    this.loadStart = 0;
+    this.courses = [];
+    this.noMoreCourses = false;
+    this.loadMore();
   }
 
   deleteCourse(id): void {
@@ -39,6 +47,25 @@ export class CoursesListComponent implements OnInit {
   }
 
   loadMore(): void {
-    console.log('Loaded more courses');
+    let params: HttpParams = new HttpParams();
+    if (this.searchQuery) {
+      params = params.set('textFragment', this.searchQuery);
+    }
+    params = params.set('start', `${this.loadStart}`);
+    params = params.set('count', `${this.coursesPerLoad}`);
+    this.coursesSubscription = this.coursesService.getCourses(params).subscribe((courses: Course[]) => {
+      if (!courses.length && !this.courses.length || courses.length < this.coursesPerLoad && this.loadStart) {
+        this.noMoreCourses = true;
+      } else {
+        this.courses = [...this.courses, ...courses.map(course => {
+          course.date = new Date(course.date);
+          return course;
+        })];
+        this.loadStart += this.coursesPerLoad;
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      });
   }
 }

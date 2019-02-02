@@ -1,11 +1,20 @@
+import {Name} from './name';
+
 export interface IUser {
+  id: number;
   login: string;
-  password: string;
+  fakeToken: string;
+  name: Name;
+  password;
 }
 
 export class User implements IUser {
-  login: string;
-  password: string;
+  public id: number;
+  public login: string;
+  public fakeToken: string;
+  public name: Name;
+  public password: string;
+
 
   constructor() {
   }

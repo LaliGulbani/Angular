@@ -1,17 +1,20 @@
 export interface ICourse {
   id: number;
-  title: string;
+  name: string;
   date: Date;
-  duration: number;
+  length: number;
   description: string;
+  isTopRated: boolean;
+  authors: Author[];
 }
 export class Course implements ICourse {
   public id: number;
-  public title: string;
+  public name: string;
   public date: Date;
-  public duration: number;
+  public length: number;
   public description: string;
-  public topRated: boolean;
+  public isTopRated: boolean;
+  public authors: Author[];
 
   constructor() {
   }

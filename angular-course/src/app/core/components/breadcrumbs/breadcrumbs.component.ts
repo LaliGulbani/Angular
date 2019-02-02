@@ -13,6 +13,6 @@ export class BreadcrumbsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isAuthenticated = this.authorizationService.isAuthenticated;
+    // this.isAuthenticated = this.authorizationService.isAuthenticated;
   }
 }
