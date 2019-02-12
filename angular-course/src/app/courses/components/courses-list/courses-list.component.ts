@@ -2,27 +2,37 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Course} from '../../entities/course';
 import {CoursesService} from '../../services/courses.service';
-import {Subscription} from 'rxjs/index';
+import {fromEvent, Subscription} from 'rxjs';
 import {HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {COURSES_PER_LOAD} from "../../../app.config";
+import {debounceTime, map} from "rxjs/internal/operators";
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.css']
 })
-export class CoursesListComponent implements OnInit {
+export class CoursesListComponent implements OnInit, OnDestroy {
   @Input() searchQuery: string;
   courses: Course[];
   coursesSubscription: Subscription;
   coursesPerLoad = COURSES_PER_LOAD;
   loadStart: number;
   noMoreCourses: boolean;
+  inputSubscription: Subscription;
 
   constructor(private coursesService: CoursesService) { }
 
   ngOnInit() {
     this.search();
+    const input = document.getElementById('search');
+    const searchObservable = fromEvent(input, 'keyup').pipe(map(i => i.currentTarget.value));
+    const debouncedInput = searchObservable.pipe(debounceTime(500));
+    this.inputSubscription = debouncedInput.subscribe( (searchQuery) => {
+      if (searchQuery.length > 3) {
+        this.search();
+      }
+    });
   }
 
   search(): void {
@@ -67,5 +77,9 @@ export class CoursesListComponent implements OnInit {
       (error: HttpErrorResponse) => {
         console.log(error.message);
       });
+  }
+
+  ngOnDestroy() {
+    this.inputSubscription.unsubscribe();
   }
 }
