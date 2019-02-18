@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="input-field col m4 s6 offset-m2">
+    <input id="duration" type="number" autocomplete="off" [(ngModel)]="duration" (change)="onDurationChange()">
+    <label for="duration">Duration in minutes</label>
+  </div>
+  <div class="input-field col m4 s6">
+    <input id="formattedDuration" type="text" disabled autocomplete="off" value="{{duration | duration}}" readonly>
+  </div>
+</div>
