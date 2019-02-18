@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({
@@ -7,6 +7,7 @@ import {AuthorizationService} from '../../services/authorization.service';
   styleUrls: ['./breadcrumbs.component.css']
 })
 export class BreadcrumbsComponent implements OnInit {
+  @Input() public pageTitle;
   isAuthenticated: boolean;
 
   constructor(private authorizationService: AuthorizationService) {

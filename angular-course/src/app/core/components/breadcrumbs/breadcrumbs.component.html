@@ -1,7 +1,7 @@
 <nav class="cyan darken-4 breadcrumbs" *ngIf="isAuthenticated">
   <div class="nav-wrapper">
     <div class="col s12 container">
-      <a href="#courses" class="breadcrumb">Courses</a>
+      <a [routerLink]="['/courses']" class="breadcrumb">{{pageTitle}}</a>
     </div>
   </div>
 </nav>
