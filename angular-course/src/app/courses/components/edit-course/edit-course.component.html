@@ -1,3 +1,48 @@
-<p>
-    edit-course works!
-  </p>
+<div class="container">
+  <div class="form">
+    <div class="row">
+      <div class="col m8 s12 offset-m2">
+        <h3 class="center text-darken-2 grey-text">Edit the course</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <input id="title" type="text" autocomplete="off" [(ngModel)]="course.name">
+        <label for="title" class="active">Title</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <textarea id="description" class="materialize-textarea" [(ngModel)]="course.description"></textarea>
+        <label for="description" class="active">Description</label>
+      </div>
+    </div>
+    <!--<app-date></app-date>-->
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <input id="date" type="text" autocomplete="off" [(ngModel)]="course.date">
+        <label for="date" class="active">Date</label>
+      </div>
+    </div>
+    <!--<app-duration></app-duration>-->
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <input id="duration" type="text" autocomplete="off" [(ngModel)]="course.length">
+        <label for="duration" class="active">Duration</label>
+      </div>
+    </div>
+    <!--<app-authors></app-authors>-->
+    <div class="row">
+      <div class="input-field col m8 s12 offset-m2">
+        <input id="authors" type="text" autocomplete="off" [(ngModel)]="course.authors">
+        <label for="authors" class="active">Authors</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col m8 s12 offset-m2">
+        <a class="waves-effect waves-light btn left" (click)="cancel()">Cancel</a>
+        <a class="waves-effect waves-light btn right" (click)="save()">Save</a>
+      </div>
+    </div>
+  </div>
+</div>
