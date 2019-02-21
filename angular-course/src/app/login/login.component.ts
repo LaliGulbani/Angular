@@ -1,5 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+
+import {Component, Input, OnInit} from '@angular/core';
 import {AuthorizationService} from '../core/services/authorization.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,7 @@ export class LoginComponent implements OnInit {
   @Input() username: string;
   @Input() password: string;
 
-  constructor(public auth: AuthorizationService) { }
+  constructor(public auth: AuthorizationService, public router: Router) { }
 
   ngOnInit() {
   }
@@ -18,5 +20,4 @@ export class LoginComponent implements OnInit {
   public login(): void {
     this.auth.login(this.username, this.password);
   }
-
 }
