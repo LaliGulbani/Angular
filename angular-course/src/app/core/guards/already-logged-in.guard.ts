@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {CanActivate, CanLoad, Router} from '@angular/router';
-import {AuthorizationService} from "../services/authorization.service";
-import {Observable} from 'rxjs';
+import {CanActivate, Router} from '@angular/router';
+import {AuthorizationService} from '../services/authorization.service';
+import {Observable} from 'rxjs/index';
 
 @Injectable()
-export class AlreadyLoggedInGuard implements CanActivate, CanLoad {
+export class AlreadyLoggedInGuard implements CanActivate {
   constructor(private auth: AuthorizationService, private router: Router) {}
 
-  can(): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     return new Observable((observer) => {
       const isAuthenticated = this.auth.isAuthenticated();
       if (isAuthenticated) {
@@ -15,13 +15,5 @@ export class AlreadyLoggedInGuard implements CanActivate, CanLoad {
       }
       observer.next(!isAuthenticated);
     });
-  }
-  canActivate(): Observable<boolean> {
-    return this.can();
-  }
-
-
-  canLoad(): Observable<boolean>{
-    return this.can();
   }
 }

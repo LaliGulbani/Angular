@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AuthorizationService } from '../../services/authorization.service';
-import {Subscription} from "rxjs/index";
+import {Observable, Subscription} from 'rxjs/index';
 
 @Component({
   selector: 'app-header',
@@ -14,10 +14,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private auth: AuthorizationService) { }
 
   ngOnInit() {
-    this.usernameSubscription = this.auth.getLoggedInName.subscribe((username: string) => {
-      this.username = username;
-      });
-  this.auth.getUserLogin();
+    this.usernameSubscription = this.auth.username$.subscribe((name) => {
+      this.username = name;
+    });
+    this.auth.getUserLogin();
   }
 
   logout(): void {

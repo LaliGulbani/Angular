@@ -1,8 +1,9 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {BASE_URL} from "../../app.config";
-import {Router} from "@angular/router";
-import {User} from "../entities/user";
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BASE_URL} from '../../app.config';
+import {Router} from '@angular/router';
+import {Observable, Subject} from 'rxjs/index';
+import {User} from '../entities/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,11 @@ import {User} from "../entities/user";
 export class AuthorizationService {
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  usernameSubject: Subject<string> = new Subject();
+  username$: Observable<string> = this.usernameSubject.asObservable();
+
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   public isAuthenticated(): boolean {
     return !!this.getToken();
@@ -19,7 +24,7 @@ export class AuthorizationService {
   public login(login: string, password: string): void {
     this.http.post(`${BASE_URL}/auth/login`, {login: login, password: password}, {}).subscribe((token: JSON) => {
         this.setToken(token);
-        this.getLoggedInName.emit(this.getUserLogin());
+        this.getUserLogin();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -27,10 +32,12 @@ export class AuthorizationService {
   }
 
   public logout(): void {
+
     localStorage.removeItem('token');
-    this.getLoggedInName.emit('');
-    this.router.navigate(['login']);
+    this.router.navigate(['/login']);
+    this.getUserLogin();
   }
+
   public getToken(): string {
     return localStorage.getItem('token');
   }
@@ -41,11 +48,12 @@ export class AuthorizationService {
   }
 
   public getUserLogin(): void {
-    this.http.post(`${BASE_URL}/auth/userinfo`, {}).subscribe((user: User) => {
-      this.getLoggedInName.emit(`${user.name.first} ${user.name.last}`);
+    this.http.post<User>(`${BASE_URL}/auth/userinfo`, {}).subscribe((res: User) =>  {
+        this.usernameSubject.next(res.name.first);
       },
-      (error: HttpErrorResponse) => {
-      console.log(error.message);
+        (err) => {
+        console.log(err.message);
+        this.usernameSubject.next(null);
       });
   }
 }
