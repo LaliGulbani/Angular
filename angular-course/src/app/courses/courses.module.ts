@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CoursesRoutingModule} from "./courses-routing.module";
 import {CoursesService} from "./services/courses.service";
 import * as components from './components';
@@ -8,7 +8,7 @@ import * as directives from './directives';
 import * as pipes from './pipes';
 
 
-const modules = [CommonModule];
+const modules = [CommonModule, ReactiveFormsModule];
 
 function toArray(obj){
   return Object.keys(obj).map(k => obj(k));

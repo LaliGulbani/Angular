@@ -1,40 +1,38 @@
-import {Component, OnInit} from '@angular/core';
+import {Component } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
 import {CoursesService} from '../../services/courses.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Course} from '../../entities/course';
+import { ValidateDate } from '../../validators/data.validator';
+import { ValidateInteger } from '../../validators/is.integer.validator';
 
 @Component({
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.css']
 })
-export class AddCourseComponent implements OnInit {
-  title: string;
-  description: string;
-  date: string;
-  duration: number;
+export class AddCourseComponent {
+  course = new FormGroup({
+    title: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    description: new FormControl('', [Validators.required, Validators.maxLength(500)]),
+    date: new FormControl('', [Validators.required, ValidateDate]),
+    durationMin: new FormControl('', [Validators.required, ValidateInteger])
+  });
   authors: Array<object>;
 
   constructor(private router: Router, private coursesService: CoursesService) { }
+  
+  titleControl = this.course.get('title');
+  descriptionControl = this.course.get('description');
+  createdAtControl = this.course.get('createdAt');
+  durationControl = this.course.get('durationMin');
 
-  ngOnInit() {
-  }
-
-  public onDurationChange(duration): void {
-    this.duration = duration;
-  }
-
-  public onDateChange(date): void {
-    this.date = date;
-  }
-
-  public save(): void {
+  public save({ value, valid }: { value: Course; valid: boolean }): void {
     const course = {
-      name: this.title,
-      description: this.description,
-      date: new Date(this.date),
-      length: this.duration,
+      name: this.course.title,
+      description: this.course.description,
+      date: new Date(this.course.date),
+      length: this.course.duration,
       isTopRated: false
     };
 

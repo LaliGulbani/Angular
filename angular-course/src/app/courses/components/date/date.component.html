@@ -1,6 +1,11 @@
 <div class="row">
   <div class="input-field col m8 s12 offset-m2">
-    <input id="date" type="text" autocomplete="off" [(ngModel)]="date" (change)="onDateChange()">
+    <input #input 
+           id="date" 
+           type="text" 
+           (blur)="onTouched()" 
+           (input)="change($event)"
+           class="form-control">
     <label for="date">Date</label>
   </div>
 </div>
