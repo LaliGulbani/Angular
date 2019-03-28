@@ -55,8 +55,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     if (this.searchQuery) {
       params = params.set('textFragment', this.searchQuery);
     }
-    // params = params.set('sort', 'date');
-    // params = params.set('order', 'asc');
+
     params = params.set('start', `${this.loadStart}`);
     params = params.set('count', `${this.coursesPerLoad}`);
     this.coursesService.getCourses(params, loadMore);
